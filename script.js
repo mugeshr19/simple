@@ -1,31 +1,65 @@
-document.querySelectorAll('.nav-links a').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-          target.scrollIntoView({
-              behavior: 'smooth'
-          });
-      }
+document.addEventListener("DOMContentLoaded", () => {
+  // Static Data (Replace with API calls or user inputs)
+  const stats = {
+      totalProblems: 150,
+      languagesUsed: ["JavaScript", "Python", "C++"],
+      successRate: 87,
+      problemsOverTime: [10, 20, 40, 60, 80, 100, 120, 150],
+      categories: {
+          "Dynamic Programming": 30,
+          Graphs: 25,
+          Strings: 45,
+          Arrays: 50,
+      },
+  };
+
+  // Update Stats
+  document.getElementById("total-problems").textContent = stats.totalProblems;
+  document.getElementById("languages-used").textContent = stats.languagesUsed.length;
+  document.getElementById("success-rate").textContent = `${stats.successRate}%`;
+
+  // Chart.js Configuration
+  const ctx1 = document.getElementById("problemsSolvedChart").getContext("2d");
+  const ctx2 = document.getElementById("categoryPerformanceChart").getContext("2d");
+
+  // Problems Solved Over Time Chart
+  new Chart(ctx1, {
+      type: "line",
+      data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+          datasets: [
+              {
+                  label: "Problems Solved",
+                  data: stats.problemsOverTime,
+                  borderColor: "#4CAF50",
+                  backgroundColor: "rgba(76, 175, 80, 0.1)",
+                  borderWidth: 2,
+              },
+          ],
+      },
+      options: {
+          responsive: true,
+          plugins: {
+              legend: { display: true },
+          },
+      },
+  });
+
+  // Category Performance Chart
+  new Chart(ctx2, {
+      type: "pie",
+      data: {
+          labels: Object.keys(stats.categories),
+          datasets: [
+              {
+                  label: "Problems by Category",
+                  data: Object.values(stats.categories),
+                  backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4CAF50"],
+              },
+          ],
+      },
+      options: {
+          responsive: true,
+      },
   });
 });
-
-// Basic form validation for contact form
-document.querySelector('form').addEventListener('submit', function(e) {
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
-
-  if (!name || !email || !message) {
-      e.preventDefault();
-      alert('Please fill in all fields.');
-  } else if (!validateEmail(email)) {
-      e.preventDefault();
-      alert('Please enter a valid email address.');
-  }
-});
-
-function validateEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-}
