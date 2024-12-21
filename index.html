@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Skills Heatmap</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    .heatmap {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      gap: 10px;
+      justify-content: center;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .cell:hover {
+      transform: scale(1.1);
+    }
+    .low {
+      background-color: #d1f7c4;
+    }
+    .medium {
+      background-color: #7dd87d;
+    }
+    .high {
+      background-color: #2d9434;
+    }
+    .tooltip {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: none;
+      max-width: 300px;
+      background: #f9f9f9;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Skills Heatmap</h1>
+  <p>Click on a skill to learn more about it!</p>
+
+  <div class="heatmap">
+    <div class="cell low" data-skill="HTML" data-details="Experience: 3 years. Created multiple responsive websites.">HTML</div>
+    <div class="cell medium" data-skill="CSS" data-details="Experience: 2.5 years. Skilled in Tailwind and animations.">CSS</div>
+    <div class="cell high" data-skill="JavaScript" data-details="Experience: 2 years. Proficient in ES6+ and frameworks.">JavaScript</div>
+    <div class="cell medium" data-skill="C++" data-details="Experience: 1.5 years. Focused on problem-solving and algorithms.">C++</div>
+    <div class="cell low" data-skill="Python" data-details="Experience: 1 year. Familiar with scripting and data analysis.">Python</div>
+    <div class="cell high" data-skill="API Integration" data-details="Experience: 2 years. Worked with REST and GraphQL APIs.">API</div>
+  </div>
+
+  <div class="tooltip" id="tooltip"></div>
+
+  <script>
+    const cells = document.querySelectorAll('.cell');
+    const tooltip = document.getElementById('tooltip');
+
+    cells.forEach(cell => {
+      cell.addEventListener('click', () => {
+        const skill = cell.getAttribute('data-skill');
+        const details = cell.getAttribute('data-details');
+
+        // Update and display the tooltip
+        tooltip.innerHTML = `<strong>${skill}</strong><br>${details}`;
+        tooltip.style.display = 'block';
+      });
+    });
+
+    // Hide the tooltip when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!event.target.classList.contains('cell')) {
+        tooltip.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
